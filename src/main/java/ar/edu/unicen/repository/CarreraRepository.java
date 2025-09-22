@@ -1,5 +1,6 @@
 package ar.edu.unicen.repository;
 
+import ar.edu.unicen.dto.CarreraDTO;
 import ar.edu.unicen.entity.Carrera;
 import ar.edu.unicen.entity.Estudiante;
 
@@ -9,6 +10,6 @@ public interface CarreraRepository {
     void create(Carrera carrera);
     void update(Carrera carrera);
     void delete(int id);
-    List<Carrera> findAll();
-    Carrera findById(int id);
+    List<CarreraDTO> findAll();
+    CarreraDTO findById(int id);
 }

@@ -1,5 +1,6 @@
 package ar.edu.unicen.repository;
 
+import ar.edu.unicen.dto.EstudianteDTO;
 import ar.edu.unicen.entity.Estudiante;
 
 import java.util.List;
@@ -7,8 +8,8 @@ import java.util.List;
 public interface EstudianteRepository {
     void create(Estudiante estudiante);
     void update(Estudiante estudiante);
-    void delete(Estudiante estudiante);
-    Estudiante findById(int id);
-    List<Estudiante> findAll();
+    void delete(int id);
+    EstudianteDTO findById(int id);
+    List<EstudianteDTO> findAll();
 
 }

@@ -1,0 +1,16 @@
+package ar.edu.unicen.repository;
+
+import ar.edu.unicen.dto.Reporte;
+import ar.edu.unicen.entity.Carrera;
+import ar.edu.unicen.entity.Estudiante;
+import ar.edu.unicen.entity.EstudianteCarrera;
+
+import java.util.List;
+
+public interface EstudianteCarreraRepository {
+    void create(int id, int id_estudiante, int id_carrera, int antiguedad, boolean seGraduo);
+    void update(EstudianteCarrera estudianteCarrera);
+    void delete(int id);
+    List<Reporte> findAll();
+    Reporte findById(int id);
+}

@@ -7,7 +7,6 @@ import lombok.*;
 import java.util.List;
 
 @Getter
-@Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,6 +17,6 @@ public class Carrera {
     private int id;
     @Column(unique = true)
     private String nombre;
-    @OneToMany(mappedBy = "carrera")
-    private List<EstudianteCarrera> inscriptos;
+    private int duracion;
+
 }

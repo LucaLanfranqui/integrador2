@@ -1,7 +1,10 @@
 package ar.edu.unicen.repository.impl;
 
+import ar.edu.unicen.dto.CarreraDTO;
 import ar.edu.unicen.entity.Carrera;
+import ar.edu.unicen.factory.JPAUtils;
 import ar.edu.unicen.repository.CarreraRepository;
+import jakarta.persistence.EntityManager;
 
 import java.util.List;
 
@@ -9,26 +12,51 @@ public class CarreraRepositoryIMPL implements CarreraRepository {
 
     @Override
     public void create(Carrera carrera) {
-
+        EntityManager em = JPAUtils.getEntityManager();
+        em.getTransaction().begin();
+        em.persist(carrera);
+        em.getTransaction().commit();
+        em.close();
     }
 
     @Override
     public void update(Carrera carrera) {
-
+        EntityManager em = JPAUtils.getEntityManager();
+        em.getTransaction().begin();
+        em.merge(carrera);
+        em.getTransaction().commit();
+        em.close();
     }
 
     @Override
     public void delete(int id) {
+        EntityManager em = JPAUtils.getEntityManager();
+        em.getTransaction().begin();
+        Carrera carrera = em.find(Carrera.class, id);
+        if (carrera != null) {
+            em.remove(carrera);
+        }
+        em.getTransaction().commit();
+        em.close();
 
     }
 
     @Override
-    public List<Carrera> findAll() {
+    public List<CarreraDTO> findAll() {
+        EntityManager em = JPAUtils.getEntityManager();
         return List.of();
     }
 
     @Override
-    public Carrera findById(int id) {
+    public CarreraDTO findById(int id) {
+        EntityManager em = JPAUtils.getEntityManager();
+        Carrera carrera = em.find(Carrera.class, id);
+        if (carrera != null) {
+            String jpql = "SELECT new ar.edu.unicen.dto.CarreraDTO(c.nombre, c.duracion) FROM Carrera c WHERE c.id = :id";
+            return em.createQuery(jpql,  CarreraDTO.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        }
         return null;
     }
 }

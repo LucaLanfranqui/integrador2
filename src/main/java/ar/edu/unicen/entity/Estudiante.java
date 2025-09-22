@@ -6,7 +6,6 @@ import lombok.*;
 import java.util.List;
 
 @Getter
-@Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,13 +13,11 @@ import java.util.List;
 public class Estudiante {
     @Id
     @Column(name = "dni")
-    private int id;
+    private int dni;
     private String nombre;
     private String apellido;
     private int edad;
     private String genero;
     private String ciudad;
     private int numeroLibreta;
-    @OneToMany(mappedBy = "alumnos")
-        private List<EstudianteCarrera> inscripciones;
 }
