@@ -10,6 +10,6 @@ public interface EstudianteRepository {
     void update(Estudiante estudiante);
     void delete(int id);
     EstudianteDTO findById(int id);
-    List<EstudianteDTO> findAll();
+    List<EstudianteDTO> findAllOrderByName();
 
 }
