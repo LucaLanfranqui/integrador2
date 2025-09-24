@@ -11,5 +11,7 @@ public interface EstudianteRepository {
     void delete(int id);
     EstudianteDTO findById(int id);
     List<EstudianteDTO> findAllOrderByName();
+    List<EstudianteDTO> getAllEstudiantesByGenero(String genero);
+    EstudianteDTO findByLibreta(int libreta);
 
 }
