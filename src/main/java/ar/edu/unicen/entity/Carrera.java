@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
-import java.util.List;
-
 @Getter
 @ToString
 @NoArgsConstructor
