@@ -7,19 +7,20 @@ import ar.edu.unicen.entity.EstudianteCarrera;
 import ar.edu.unicen.factory.JPAUtils;
 import ar.edu.unicen.repository.EstudianteCarreraRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
 public class EstudianteCarreraRepositoryIMPL implements EstudianteCarreraRepository {
 
     @Override
-    public void create(int id, int id_estudiante, int id_carrera, int antiguedad, boolean seGraduo) {
+    public void create(int id, int id_estudiante, int id_carrera,int inscripcion,int graduacion, int antiguedad) {
         EntityManager em = JPAUtils.getEntityManager();
         em.getTransaction().begin();
         Estudiante e = em.find(Estudiante.class, id_estudiante);
         Carrera c = em.find(Carrera.class, id_carrera);
         if (e != null && c != null) {
-            EstudianteCarrera ec = new EstudianteCarrera(id,e, c, antiguedad, seGraduo);
+            EstudianteCarrera ec = new EstudianteCarrera(id,e, c, inscripcion, graduacion, antiguedad);
             em.persist(ec);
             em.getTransaction().commit();
         }
@@ -56,4 +57,17 @@ public class EstudianteCarreraRepositoryIMPL implements EstudianteCarreraReposit
     public Reporte findById(int id) {
         return null;
     }
+
+    @Override
+    public List<Reporte> getEstudiantesInscriptos() {
+        EntityManager em = JPAUtils.getEntityManager();
+            String jpql = "SELECT new ar.edu.unicen.dto.Reporte(e.nombre, c.nombre, ec.inscripcion, ec.graduacion, ec.antiguedad) FROM EstudianteCarrera ec " +
+                    "JOIN ec.estudiante e " +
+                    "JOIN ec.carrera c "+
+                    "GROUP BY c " +
+                    "ORDER BY COUNT(e) DESC";
+            return em.createQuery(jpql, Reporte.class)
+                    .getResultList();
+    }
+
 }

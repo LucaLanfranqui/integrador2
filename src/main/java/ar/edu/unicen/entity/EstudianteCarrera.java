@@ -24,7 +24,8 @@ public class EstudianteCarrera {
     @JoinColumn(name = "id")
     private Carrera carrera;
 
+    private int inscripcion;
+    private int graduacion;
     private int antiguedad;
-    private boolean seGraduo;
 
 }
