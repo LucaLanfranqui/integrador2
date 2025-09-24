@@ -6,6 +6,10 @@ import lombok.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Reporte {
+    private String nombre;
+    private String nombreCarrera;
+    private int inscripcion;
+    private int graduacion;
+    private int antiguedad;
 }
