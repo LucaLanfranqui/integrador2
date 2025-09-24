@@ -8,11 +8,9 @@ import lombok.*;
 @AllArgsConstructor
 
 public class Reporte {
-    private String nombreEstudiante;
+    private String nombre;
     private String nombreCarrera;
     private int inscripcion;
     private int graduacion;
-    private int atiguedad;
+    private int antiguedad;
 }
-
-

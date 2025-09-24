@@ -25,7 +25,7 @@ public class EstudianteCarrera {
     private Carrera carrera;
 
     private int inscripcion;
-    private int antiguedad;
     private int graduacion;
+    private int antiguedad;
 
 }

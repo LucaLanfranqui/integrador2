@@ -12,5 +12,6 @@ public interface EstudianteRepository {
     EstudianteDTO findById(int id);
     List<EstudianteDTO> findAll();
     List<EstudianteDTO> getAllEstudiantesByGenero(String genero);
+    EstudianteDTO findByLibreta(int libreta);
 
 }

@@ -14,4 +14,5 @@ public interface EstudianteCarreraRepository {
     List<Reporte> findAll();
     Reporte findById(int id);
     List<Reporte> getAllEstudiantesCarreraByResidencia(int id_carrera, String residencia);
+    List<Reporte> getEstudiantesInscriptos();
 }
