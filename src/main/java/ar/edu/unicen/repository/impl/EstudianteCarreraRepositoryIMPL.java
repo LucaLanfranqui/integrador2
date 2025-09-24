@@ -59,6 +59,26 @@ public class EstudianteCarreraRepositoryIMPL implements EstudianteCarreraReposit
     }
 
     @Override
+    public List<Reporte> getAllEstudiantesCarreraByResidencia(int id_carrera, String residencia) {
+        EntityManager em = JPAUtils.getEntityManager();
+        Carrera c = em.find(Carrera.class, id_carrera);
+        if (c != null) {
+            String jpql = "SELECT new ar.edu.unicen.dto.Reporte(e.nombre, c.nombre, ec.inscripcion, ec.graduacion, ec.antiguedad) "
+                    + "FROM EstudianteCarrera ec " +
+                     "JOIN ec.carrera c " +
+                     "JOIN ec.estudiante e " +
+                     "WHERE c.id = :id_carrera AND e.ciudad = :residencia ";
+
+            return em.createQuery(jpql, Reporte.class)
+                    .setParameter("id_carrera",id_carrera)
+                    .setParameter("residencia",residencia)
+                    .getResultList();
+        }
+        System.out.println("No se encontro resultado");
+        return null;
+    }
+
+    @Override
     public List<Reporte> getEstudiantesInscriptos() {
         EntityManager em = JPAUtils.getEntityManager();
             String jpql = "SELECT new ar.edu.unicen.dto.Reporte(e.nombre, c.nombre, ec.inscripcion, ec.graduacion, ec.antiguedad) FROM EstudianteCarrera ec " +

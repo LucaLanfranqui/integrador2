@@ -72,4 +72,17 @@ public class EstudianteRepositoryIMPL implements EstudianteRepository {
             return null;
         }
     }
+
+    @Override
+    public List<EstudianteDTO> getAllEstudiantesByGenero(String genero) {
+        EntityManager em = JPAUtils.getEntityManager();
+        String jpql =
+                "SELECT new ar.edu.unicen.dto.EstudianteDTO(e.dni,CONCAT(e.nombre, e.apellido)," +
+                " e.genero, e.ciudad, e.numeroLibreta)" +
+                " FROM Estudiante e WHERE e.genero = :genero";
+
+        return em.createQuery(jpql,  EstudianteDTO.class).setParameter("genero", genero).getResultList();
+    }
+
+
 }
