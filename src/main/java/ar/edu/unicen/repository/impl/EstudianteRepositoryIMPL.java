@@ -7,6 +7,7 @@ import ar.edu.unicen.entity.Estudiante;
 import ar.edu.unicen.factory.JPAUtils;
 import ar.edu.unicen.repository.EstudianteRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 
 import java.util.List;
 
@@ -53,8 +54,12 @@ public class EstudianteRepositoryIMPL implements EstudianteRepository {
     }
 
     @Override
-    public List<EstudianteDTO> findAll() {
-        return List.of();
+    public List<EstudianteDTO> findAllOrderByName() {
+        EntityManager em = JPAUtils.getEntityManager();
+        String jpql = "SELECT new ar.edu.unicen.dto.EstudianteDTO(e.dni,CONCAT(e.nombre, e.apellido), e.genero, e.ciudad, e.numeroLibreta ) " +
+                      "FROM Estudiante e " +
+                      "ORDER BY e.nombre";
+        return em.createQuery(jpql, EstudianteDTO.class).getResultList();
     }
 
     @Override
