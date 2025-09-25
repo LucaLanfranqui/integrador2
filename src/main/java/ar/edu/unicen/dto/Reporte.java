@@ -21,6 +21,7 @@ public class Reporte {
         this.graduacion = graduacion;
         this.antiguedad = antiguedad;
     }
+
     public Reporte(String nombreCarrera, Long cantidadDeInscriptos) {
         this.nombreCarrera = nombreCarrera;
         this.cantidadDeInscriptos = cantidadDeInscriptos;

@@ -4,7 +4,6 @@ import ar.edu.unicen.dto.EstudianteDTO;
 import ar.edu.unicen.dto.Reporte;
 import ar.edu.unicen.entity.Carrera;
 import ar.edu.unicen.entity.Estudiante;
-import ar.edu.unicen.entity.EstudianteCarrera;
 import ar.edu.unicen.repository.impl.CarreraRepositoryIMPL;
 import ar.edu.unicen.repository.impl.EstudianteCarreraRepositoryIMPL;
 import ar.edu.unicen.repository.impl.EstudianteRepositoryIMPL;
@@ -19,66 +18,93 @@ import java.util.List;
 
 
 public class CargarDatos {
-        private static CarreraRepositoryIMPL carrerarepositoryimpl;
-        private static EstudianteRepositoryIMPL estudianterepositoryimpl;
-        private static EstudianteCarreraRepositoryIMPL estudiantecarrerarepositoryimpl;
+    private static CarreraRepositoryIMPL carreraRepoImpl;
+    private static EstudianteRepositoryIMPL estudianteRepoImpl;
+    private static EstudianteCarreraRepositoryIMPL estudianteCarreraRepoImpl;
+
+    static {
+        carreraRepoImpl = new CarreraRepositoryIMPL();
+        estudianteRepoImpl = new EstudianteRepositoryIMPL();
+        estudianteCarreraRepoImpl = new EstudianteCarreraRepositoryIMPL();
+    }
+
+    public static void run() throws SQLException, IOException {
+        aniadirDatos();
+    }
 
 
+    private static void aniadirDatos() throws SQLException, IOException {
+        cargarEstudiantes("src/main/resources/data/estudiantes.csv");
+        cargarCarreras("src/main/resources/data/carreras.csv");
+        cargarEstudianteCarrera("src/main/resources/data/estudianteCarrera.csv");
+    }
 
-        static{
-            carrerarepositoryimpl = new CarreraRepositoryIMPL();
-            estudianterepositoryimpl = new EstudianteRepositoryIMPL();
-            estudiantecarrerarepositoryimpl = new EstudianteCarreraRepositoryIMPL();
+    //a) dar de alta un estudiante
+    private static void cargarEstudiantes(String CSV) throws SQLException, IOException {
+        CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader(CSV));
+        for (CSVRecord row: parser) {
+            Estudiante e1 = new Estudiante(Integer.valueOf(row.get("DNI")), row.get("nombre"),
+                    row.get("apellido"),Integer.valueOf(row.get("edad")), row.get("genero"),
+                    row.get("ciudad"),Integer.valueOf(row.get("LU")));
+            estudianteRepoImpl.create(e1);
         }
-        public static void run() throws SQLException, IOException {
-            aniadirDatos();
-        }
+    }
 
 
-        //añade los datos de los CSV a cada tabla
-        private static void aniadirDatos() throws SQLException, IOException {
-            cargarEstudiantes("src/main/resources/data/estudiantes.csv");
-            cargarCarreras("src/main/resources/data/carreras.csv");
-            cargarEstudianteCarrera("src/main/resources/data/estudianteCarrera.csv");
+    private static void cargarCarreras(String CSV) throws SQLException, IOException {
+        CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader(CSV));
+        for (CSVRecord row: parser) {
+            Carrera c1 = new Carrera(Integer.valueOf(row.get("id_carrera")),row.get("carrera")
+                    ,Integer.valueOf(row.get("id_carrera")));
+            carreraRepoImpl.create(c1);
         }
+    }
+
+    //b) matricular un estudiante en una carrera
+    private static void cargarEstudianteCarrera(String CSV) throws SQLException, IOException{
+        CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader(CSV));
+
+        for (CSVRecord row: parser) {
+            estudianteCarreraRepoImpl.create(Integer.valueOf(row.get("id"))
+                    ,Integer.valueOf(row.get("id_estudiante")),Integer.valueOf(row.get("id_carrera"))
+                    ,Integer.valueOf(row.get("inscripcion")),Integer.valueOf(row.get("graduacion")),
+                     Integer.valueOf(row.get("antiguedad")));
+        }
+    }
 
 
-        //carga los datos del csv Estudiante.csv a la tabla estudiante
-        private static void cargarEstudiantes(String CSV) throws SQLException, IOException {
-            CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader(CSV));
-            for(CSVRecord row: parser) {
-                Estudiante e1 = new Estudiante(Integer.valueOf(row.get("DNI")), row.get("nombre"), row.get("apellido"),Integer.valueOf(row.get("edad")), row.get("genero"), row.get("ciudad"),Integer.valueOf(row.get("LU")));
-                estudianterepositoryimpl.create(e1);
-            }
-        }
+    //c) recuperar todos los estudiantes, y especificar algún criterio de ordenamiento simple.
+    public static List<EstudianteDTO> getAllEstudiantesOrderByName() {
+        return estudianteRepoImpl.findAllOrderByName();
+    }
 
-        //carga los datos del csv Estudiante.csv a la tabla estudiante
-        private static void cargarCarreras(String CSV) throws SQLException, IOException {
-            CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader(CSV));
-            for(CSVRecord row: parser) {
-                Carrera c1 = new Carrera(Integer.valueOf(row.get("id_carrera")),row.get("carrera"),Integer.valueOf(row.get("id_carrera")));
-                carrerarepositoryimpl.create(c1);
-            }
-        }
+    //d) recuperar un estudiante, en base a su número de libreta universitaria.
+    public static EstudianteDTO findBylibreta(int libreta) {
+        return estudianteRepoImpl.findByLibreta(libreta);
+    }
 
-        //carga los datos del csv facturas.csv a la tabla factura
-        private static void cargarEstudianteCarrera(String CSV) throws SQLException, IOException{
-            CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(new FileReader(CSV));
+    //e) recuperar todos los estudiantes, en base a su género.
+    public static List<EstudianteDTO> getAllEstudiantesByGenero(String genero) {
+        return estudianteRepoImpl.getAllEstudiantesByGenero(genero);
+    }
 
-            for(CSVRecord row: parser) {
-                estudiantecarrerarepositoryimpl.create(Integer.valueOf(row.get("id")),Integer.valueOf(row.get("id_estudiante")),Integer.valueOf(row.get("id_carrera")),Integer.valueOf(row.get("inscripcion")),Integer.valueOf(row.get("graduacion")),Integer.valueOf(row.get("antiguedad")));
-            }
-        }
-        public static List<Reporte> getAllEstudiantesCarreraByResidencia(int carrera, String residencia) throws SQLException, IOException{
-            return estudiantecarrerarepositoryimpl.getAllEstudiantesCarreraByResidencia(carrera,residencia);
-        }
-        public static List<Reporte> getEstudiantesInscriptos(){
-            return estudiantecarrerarepositoryimpl.getEstudiantesInscriptos();
-        }
-        public static List<Reporte> getReportes(){
-            return estudiantecarrerarepositoryimpl.getReportes();
-        }
-        public static EstudianteDTO findBylibreta(int libreta){
-            return estudianterepositoryimpl.findByLibreta(libreta);
-        }
+    //f) recuperar las carreras con estudiantes inscriptos, y ordenar por cantidad de inscriptos.
+    public static List<Reporte> getEstudiantesInscriptos(){
+        return estudianteCarreraRepoImpl.getEstudiantesInscriptos();
+    }
+
+    //g) recuperar los estudiantes de una determinada carrera, filtrado por ciudad de residencia.
+    public static List<Reporte> getAllEstudiantesCarreraByResidencia(int id_carrera, String residencia) throws SQLException, IOException{
+        return estudianteCarreraRepoImpl.getAllEstudiantesCarreraByResidencia(id_carrera, residencia);
+    }
+
+    /*
+    * 3) Generar un reporte de las carreras, que para cada carrera incluya información de los
+    *   inscriptos y egresados por año. Se deben ordenar las carreras alfabéticamente, y presentar
+    *  los años de manera cronológica.
+    * */
+    public static List<Reporte> getReportes() {
+        return estudianteCarreraRepoImpl.getReportes();
+    }
+
 }

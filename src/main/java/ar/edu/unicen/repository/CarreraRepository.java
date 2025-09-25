@@ -10,7 +10,4 @@ public interface CarreraRepository {
     void create(Carrera carrera);
     void update(Carrera carrera);
     void delete(int id);
-    List<CarreraDTO> findAll();
-    CarreraDTO findById(int id);
-    Carrera findByIdPrivate(int id);
 }
