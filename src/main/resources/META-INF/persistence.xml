@@ -9,7 +9,8 @@
 
         <!-- aca van las entidades /-->
         <class>ar.edu.unicen.entity.Carrera</class>
-        <class>ar.edu.unicen.entity.Estudiante</class>
+        <class>ar.edu.unicen.entity.Estudiante</class>}
+        <class>ar.edu.unicen.entity.EstudianteCarrera</class>
 
         <properties>
 

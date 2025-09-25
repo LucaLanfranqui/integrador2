@@ -81,13 +81,23 @@ public class EstudianteCarreraRepositoryIMPL implements EstudianteCarreraReposit
     @Override
     public List<Reporte> getEstudiantesInscriptos() {
         EntityManager em = JPAUtils.getEntityManager();
-            String jpql = "SELECT new ar.edu.unicen.dto.Reporte(e.nombre, c.nombre, ec.inscripcion, ec.graduacion, ec.antiguedad) FROM EstudianteCarrera ec " +
+            String jpql = "SELECT new ar.edu.unicen.dto.Reporte(c.nombre,COUNT(e)) " +
+                    "FROM EstudianteCarrera ec " +
                     "JOIN ec.estudiante e " +
                     "JOIN ec.carrera c "+
                     "GROUP BY c " +
                     "ORDER BY COUNT(e) DESC";
             return em.createQuery(jpql, Reporte.class)
                     .getResultList();
+    }
+    public List<Reporte> getReportes() {
+        EntityManager em = JPAUtils.getEntityManager();
+        String jpql = "SELECT new ar.edu.unicen.dto.Reporte(e.nombre, c.nombre, ec.inscripcion, ec.graduacion, ec.antiguedad) FROM EstudianteCarrera ec "+
+                "JOIN ec.estudiante e " +
+                "JOIN ec.carrera c " +
+                "GROUP BY c " +
+                "ORDER BY c.nombre, ec.inscripcion ASC ";
+    return em.createQuery(jpql, Reporte.class).getResultList();
     }
 
 }

@@ -59,4 +59,11 @@ public class CarreraRepositoryIMPL implements CarreraRepository {
         }
         return null;
     }
+
+    @Override
+    public Carrera findByIdPrivate(int id) {
+        EntityManager em = JPAUtils.getEntityManager();
+        Carrera carrera = em.find(Carrera.class, id);
+        return carrera;
+    }
 }

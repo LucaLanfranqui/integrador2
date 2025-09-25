@@ -12,4 +12,5 @@ public interface CarreraRepository {
     void delete(int id);
     List<CarreraDTO> findAll();
     CarreraDTO findById(int id);
+    Carrera findByIdPrivate(int id);
 }

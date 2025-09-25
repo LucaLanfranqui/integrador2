@@ -12,19 +12,19 @@ import lombok.*;
 @Entity
 public class EstudianteCarrera {
     @Id
+    @Column(name = "id_estudianteCarrera")
     private int id;
 
     @ManyToOne
-    @MapsId("id")
     @JoinColumn(name = "dni")
     private Estudiante estudiante;
 
     @ManyToOne
-    @MapsId("id")
     @JoinColumn(name = "id")
     private Carrera carrera;
 
     private int inscripcion;
-    private int antiguedad;
     private int graduacion;
+    private int antiguedad;
+
 }
