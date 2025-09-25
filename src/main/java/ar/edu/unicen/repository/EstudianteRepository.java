@@ -9,9 +9,6 @@ public interface EstudianteRepository {
     void create(Estudiante estudiante);
     void update(Estudiante estudiante);
     void delete(int id);
-    EstudianteDTO findById(int id);
-    Estudiante findByIdPrivate(int id);
-    List<Estudiante> findAll();
     List<EstudianteDTO> findAllOrderByName();
     List<EstudianteDTO> getAllEstudiantesByGenero(String genero);
     EstudianteDTO findByLibreta(int libreta);

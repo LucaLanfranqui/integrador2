@@ -7,7 +7,6 @@ import ar.edu.unicen.entity.EstudianteCarrera;
 import ar.edu.unicen.factory.JPAUtils;
 import ar.edu.unicen.repository.EstudianteCarreraRepository;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
@@ -49,16 +48,6 @@ public class EstudianteCarreraRepositoryIMPL implements EstudianteCarreraReposit
     }
 
     @Override
-    public List<Reporte> findAll() {
-        return List.of();
-    }
-
-    @Override
-    public Reporte findById(int id) {
-        return null;
-    }
-
-    @Override
     public List<Reporte> getAllEstudiantesCarreraByResidencia(int id_carrera, String residencia) {
         EntityManager em = JPAUtils.getEntityManager();
         Carrera c = em.find(Carrera.class, id_carrera);
@@ -90,6 +79,7 @@ public class EstudianteCarreraRepositoryIMPL implements EstudianteCarreraReposit
             return em.createQuery(jpql, Reporte.class)
                     .getResultList();
     }
+
     public List<Reporte> getReportes() {
         EntityManager em = JPAUtils.getEntityManager();
         String jpql = "SELECT new ar.edu.unicen.dto.Reporte(e.nombre, c.nombre, ec.inscripcion, ec.graduacion, ec.antiguedad) FROM EstudianteCarrera ec "+
@@ -97,7 +87,7 @@ public class EstudianteCarreraRepositoryIMPL implements EstudianteCarreraReposit
                 "JOIN ec.carrera c " +
                 "GROUP BY c " +
                 "ORDER BY c.nombre, ec.inscripcion ASC ";
-    return em.createQuery(jpql, Reporte.class).getResultList();
+        return em.createQuery(jpql, Reporte.class).getResultList();
     }
 
 }

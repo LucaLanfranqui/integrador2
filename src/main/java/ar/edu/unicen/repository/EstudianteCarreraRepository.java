@@ -11,8 +11,6 @@ public interface EstudianteCarreraRepository {
     void create(int id, int id_estudiante, int id_carrera, int inscripcion , int antiguedad, int graduacion);
     void update(EstudianteCarrera estudianteCarrera);
     void delete(int id);
-    List<Reporte> findAll();
-    Reporte findById(int id);
     List<Reporte> getAllEstudiantesCarreraByResidencia(int id_carrera, String residencia);
     List<Reporte> getEstudiantesInscriptos();
 }

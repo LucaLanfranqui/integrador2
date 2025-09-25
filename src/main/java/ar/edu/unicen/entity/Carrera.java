@@ -12,7 +12,6 @@ import lombok.*;
 @Entity
 public class Carrera {
     @Id
-    @Column(name = "id")
     private int id;
     @Column(unique = true)
     private String nombre;

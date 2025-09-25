@@ -1,13 +1,12 @@
 package ar.edu.unicen.repository.impl;
 
-import ar.edu.unicen.dto.CarreraDTO;
 import ar.edu.unicen.dto.EstudianteDTO;
 import ar.edu.unicen.entity.Carrera;
 import ar.edu.unicen.entity.Estudiante;
 import ar.edu.unicen.factory.JPAUtils;
 import ar.edu.unicen.repository.EstudianteRepository;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
+
 
 import java.util.List;
 
@@ -41,34 +40,6 @@ public class EstudianteRepositoryIMPL implements EstudianteRepository {
     }
 
     @Override
-    public EstudianteDTO findById(int id) {
-        EntityManager em = JPAUtils.getEntityManager();
-        Carrera carrera = em.find(Carrera.class, id);
-        if (carrera != null) {
-            String jpql = "SELECT new ar.edu.unicen.dto.EstudianteDTO(e.dni,CONCAT(e.nombre, e.apellido), e.genero, e.ciudad, e.numeroLibreta ) FROM Estudiante e WHERE e.dni = :id";
-            return em.createQuery(jpql,  EstudianteDTO.class)
-                    .setParameter("id", id)
-                    .getSingleResult();
-        }
-        return null;
-    }
-    public Estudiante findByIdPrivate(int id) {
-        EntityManager em = JPAUtils.getEntityManager();
-
-        Estudiante e = em.find(Estudiante.class, id);
-        if(e != null) {
-            return e;
-        }
-        return null;
-
-    }
-
-    @Override
-    public List<Estudiante> findAll() {
-        return List.of();
-    }
-
-    @Override
     public List<EstudianteDTO> findAllOrderByName() {
         EntityManager em = JPAUtils.getEntityManager();
         String jpql = "SELECT new ar.edu.unicen.dto.EstudianteDTO(e.dni,CONCAT(e.nombre, e.apellido), e.genero, e.ciudad, e.numeroLibreta ) " +
@@ -85,8 +56,7 @@ public class EstudianteRepositoryIMPL implements EstudianteRepository {
              return em.createQuery(jpql, EstudianteDTO.class)
                      .setParameter("libreta", libreta)
                     .getSingleResult();
-        }
-
+    }
 
     @Override
     public List<EstudianteDTO> getAllEstudiantesByGenero(String genero) {
@@ -96,7 +66,7 @@ public class EstudianteRepositoryIMPL implements EstudianteRepository {
                 " e.genero, e.ciudad, e.numeroLibreta)" +
                 " FROM Estudiante e WHERE e.genero = :genero";
 
-        return em.createQuery(jpql,  EstudianteDTO.class).setParameter("genero", genero).getResultList();
+        return em.createQuery(jpql, EstudianteDTO.class).setParameter("genero", genero).getResultList();
     }
 
 
