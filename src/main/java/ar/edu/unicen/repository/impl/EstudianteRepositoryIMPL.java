@@ -51,11 +51,11 @@ public class EstudianteRepositoryIMPL implements EstudianteRepository {
     @Override
     public EstudianteDTO findByLibreta(int libreta) {
         EntityManager em = JPAUtils.getEntityManager();
-        //Estudiante e = em.find(Estudiante.class, libreta);
-            String jpql = "SELECT new ar.edu.unicen.dto.EstudianteDTO(e.dni,CONCAT(e.nombre, e.apellido), e.genero, e.ciudad, e.numeroLibreta ) FROM Estudiante e WHERE e.numeroLibreta = :libreta";
-             return em.createQuery(jpql, EstudianteDTO.class)
+            String jpql = "SELECT new ar.edu.unicen.dto.EstudianteDTO(e.dni,CONCAT(e.nombre, e.apellido), e.genero, e.ciudad, e.numeroLibreta ) " +
+                          "FROM Estudiante e WHERE e.numeroLibreta = :libreta";
+            return em.createQuery(jpql, EstudianteDTO.class)
                      .setParameter("libreta", libreta)
-                    .getSingleResult();
+                     .getSingleResult();
     }
 
     @Override
