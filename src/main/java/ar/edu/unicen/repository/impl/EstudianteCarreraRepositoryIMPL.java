@@ -1,5 +1,7 @@
 package ar.edu.unicen.repository.impl;
 
+import ar.edu.unicen.dto.CarreraInscripcionDTO;
+import ar.edu.unicen.dto.EstudianteResidenciaDTO;
 import ar.edu.unicen.dto.Reporte;
 import ar.edu.unicen.entity.Carrera;
 import ar.edu.unicen.entity.Estudiante;
@@ -48,18 +50,18 @@ public class EstudianteCarreraRepositoryIMPL implements EstudianteCarreraReposit
     }
 
     @Override
-    public List<Reporte> getAllEstudiantesCarreraByResidencia(int id_carrera, String residencia) {
+    public List<EstudianteResidenciaDTO> getAllEstudiantesCarreraByResidencia(int id_carrera, String residencia) {
         EntityManager em = JPAUtils.getEntityManager();
         Carrera c = em.find(Carrera.class, id_carrera);
         if (c != null) {
             String jpql = "SELECT " +
-                         "new ar.edu.unicen.dto.Reporte(e.nombre, c.nombre, ec.inscripcion, ec.graduacion, ec.antiguedad, e.ciudad) " +
+                         "new ar.edu.unicen.dto.EstudianteResidenciaDTO(e.nombre, c.nombre, e.ciudad) " +
                          "FROM EstudianteCarrera ec " +
                          "JOIN ec.carrera c " +
                          "JOIN ec.estudiante e " +
-                         "WHERE c.id = :id_carrera AND e.ciudad = :residencia ";
+                         "WHERE c.id = :id_carrera AND e.ciudad = :residencia";
 
-            return em.createQuery(jpql, Reporte.class)
+            return em.createQuery(jpql, EstudianteResidenciaDTO.class)
                     .setParameter("id_carrera",id_carrera)
                     .setParameter("residencia",residencia)
                     .getResultList();
@@ -69,15 +71,15 @@ public class EstudianteCarreraRepositoryIMPL implements EstudianteCarreraReposit
     }
 
     @Override
-    public List<Reporte> getEstudiantesInscriptos() {
+    public List<CarreraInscripcionDTO> getEstudiantesInscriptos() {
         EntityManager em = JPAUtils.getEntityManager();
-            String jpql = "SELECT new ar.edu.unicen.dto.Reporte(c.nombre,COUNT(e)) " +
+            String jpql = "SELECT new ar.edu.unicen.dto.CarreraInscripcionDTO(c.nombre,COUNT(ec)) " +
                     "FROM EstudianteCarrera ec " +
                     "JOIN ec.estudiante e " +
                     "JOIN ec.carrera c "+
                     "GROUP BY c " +
                     "ORDER BY COUNT(e) DESC";
-            return em.createQuery(jpql, Reporte.class)
+            return em.createQuery(jpql, CarreraInscripcionDTO.class)
                     .getResultList();
     }
 

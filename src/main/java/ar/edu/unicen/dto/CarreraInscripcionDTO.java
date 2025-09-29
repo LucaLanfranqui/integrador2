@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class CarreraDTO {
+public class CarreraInscripcionDTO {
     private String nombre;
-    private int duracion;
+    private Long cantidadDeInscriptos;
 }

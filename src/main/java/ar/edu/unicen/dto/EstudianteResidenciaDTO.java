@@ -1,17 +1,16 @@
 package ar.edu.unicen.dto;
 
+
 import lombok.*;
 
 @Getter
+@Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Reporte {
+public class EstudianteResidenciaDTO {
+    private String estudiante;
     private String carrera;
-    private int anio;
-    private Long egresados;
-    private Long cantidadDeInscriptos;
-
-
+    private String residencia;
 }
