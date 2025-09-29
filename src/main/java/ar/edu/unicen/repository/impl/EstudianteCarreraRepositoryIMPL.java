@@ -52,11 +52,12 @@ public class EstudianteCarreraRepositoryIMPL implements EstudianteCarreraReposit
         EntityManager em = JPAUtils.getEntityManager();
         Carrera c = em.find(Carrera.class, id_carrera);
         if (c != null) {
-            String jpql = "SELECT new ar.edu.unicen.dto.Reporte(e.nombre, c.nombre, ec.inscripcion, ec.graduacion, ec.antiguedad) "
-                    + "FROM EstudianteCarrera ec " +
-                     "JOIN ec.carrera c " +
-                     "JOIN ec.estudiante e " +
-                     "WHERE c.id = :id_carrera AND e.ciudad = :residencia ";
+            String jpql = "SELECT " +
+                         "new ar.edu.unicen.dto.Reporte(e.nombre, c.nombre, ec.inscripcion, ec.graduacion, ec.antiguedad, e.ciudad) " +
+                         "FROM EstudianteCarrera ec " +
+                         "JOIN ec.carrera c " +
+                         "JOIN ec.estudiante e " +
+                         "WHERE c.id = :id_carrera AND e.ciudad = :residencia ";
 
             return em.createQuery(jpql, Reporte.class)
                     .setParameter("id_carrera",id_carrera)
@@ -82,11 +83,15 @@ public class EstudianteCarreraRepositoryIMPL implements EstudianteCarreraReposit
 
     public List<Reporte> getReportes() {
         EntityManager em = JPAUtils.getEntityManager();
-        String jpql = "SELECT new ar.edu.unicen.dto.Reporte(e.nombre, c.nombre, ec.inscripcion, ec.graduacion, ec.antiguedad) FROM EstudianteCarrera ec "+
-                "JOIN ec.estudiante e " +
+        String jpql =  "SELECT new ar.edu.unicen.dto.Reporte(" +
+                "c.nombre, " +
+                "ec.inscripcion, " +
+                "COUNT(ec), " +
+                "SUM(CASE WHEN ec.graduacion > 0 THEN 1 ELSE 0 END)) " +
+                "FROM EstudianteCarrera ec " +
                 "JOIN ec.carrera c " +
-                "GROUP BY c " +
-                "ORDER BY c.nombre, ec.inscripcion ASC ";
+                "GROUP BY c.nombre, ec.inscripcion " +
+                "ORDER BY c.nombre ASC, ec.inscripcion ASC";
         return em.createQuery(jpql, Reporte.class).getResultList();
     }
 
