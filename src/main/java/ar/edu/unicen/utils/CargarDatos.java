@@ -1,6 +1,8 @@
 package ar.edu.unicen.utils;
 
+import ar.edu.unicen.dto.CarreraInscripcionDTO;
 import ar.edu.unicen.dto.EstudianteDTO;
+import ar.edu.unicen.dto.EstudianteResidenciaDTO;
 import ar.edu.unicen.dto.Reporte;
 import ar.edu.unicen.entity.Carrera;
 import ar.edu.unicen.entity.Estudiante;
@@ -89,12 +91,12 @@ public class CargarDatos {
     }
 
     //f) recuperar las carreras con estudiantes inscriptos, y ordenar por cantidad de inscriptos.
-    public static List<Reporte> getEstudiantesInscriptos(){
+    public static List<CarreraInscripcionDTO> getEstudiantesInscriptos(){
         return estudianteCarreraRepoImpl.getEstudiantesInscriptos();
     }
 
     //g) recuperar los estudiantes de una determinada carrera, filtrado por ciudad de residencia.
-    public static List<Reporte> getAllEstudiantesCarreraByResidencia(int id_carrera, String residencia) throws SQLException, IOException{
+    public static List<EstudianteResidenciaDTO> getAllEstudiantesCarreraByResidencia(int id_carrera, String residencia) throws SQLException, IOException{
         return estudianteCarreraRepoImpl.getAllEstudiantesCarreraByResidencia(id_carrera, residencia);
     }
 
