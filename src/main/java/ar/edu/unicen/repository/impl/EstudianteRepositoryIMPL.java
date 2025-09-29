@@ -42,7 +42,7 @@ public class EstudianteRepositoryIMPL implements EstudianteRepository {
     @Override
     public List<EstudianteDTO> findAllOrderByName() {
         EntityManager em = JPAUtils.getEntityManager();
-        String jpql = "SELECT new ar.edu.unicen.dto.EstudianteDTO(e.dni,CONCAT(e.nombre, e.apellido), e.genero, e.ciudad, e.numeroLibreta ) " +
+        String jpql = "SELECT new ar.edu.unicen.dto.EstudianteDTO(e.dni,CONCAT(e.nombre, ' ' , e.apellido), e.genero, e.ciudad, e.numeroLibreta ) " +
                       "FROM Estudiante e " +
                       "ORDER BY e.nombre";
         return em.createQuery(jpql, EstudianteDTO.class).getResultList();
