@@ -5,7 +5,9 @@ import java.sql.SQLException;
 
 public class Main {
   public static void main(String[] args) throws IOException, SQLException{
-    // CargarDatos.run();
+
+      //Cargar los datos del tp2
+      // CargarDatos.run();
 
       System.out.println("Enunciado c");
       CargarDatos.getAllEstudiantesOrderByName().forEach(System.out::println);
@@ -16,11 +18,11 @@ public class Main {
       System.out.println("Enunciado e");
       CargarDatos.getAllEstudiantesByGenero("Male").forEach(System.out::println);
 
-      System.out.println("Enunciado  g");
-      CargarDatos.getAllEstudiantesCarreraByResidencia(1,"Rauch").forEach(System.out::println);
-
       System.out.println("Enunciado  f");
       CargarDatos.getEstudiantesInscriptos().forEach(System.out::println);
+
+      System.out.println("Enunciado  g");
+      CargarDatos.getAllEstudiantesCarreraByResidencia(1,"Rauch").forEach(System.out::println);
 
       System.out.println("Enunciado  3");
       CargarDatos.getReportes().forEach(System.out::println);

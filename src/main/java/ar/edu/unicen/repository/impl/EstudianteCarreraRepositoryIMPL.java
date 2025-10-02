@@ -75,10 +75,9 @@ public class EstudianteCarreraRepositoryIMPL implements EstudianteCarreraReposit
         EntityManager em = JPAUtils.getEntityManager();
             String jpql = "SELECT new ar.edu.unicen.dto.CarreraInscripcionDTO(c.nombre,COUNT(ec)) " +
                     "FROM EstudianteCarrera ec " +
-                    "JOIN ec.estudiante e " +
                     "JOIN ec.carrera c "+
-                    "GROUP BY c " +
-                    "ORDER BY COUNT(e) DESC";
+                    "GROUP BY ec.carrera " +
+                    "ORDER BY COUNT(ec) DESC";
             return em.createQuery(jpql, CarreraInscripcionDTO.class)
                     .getResultList();
     }
